@@ -17,6 +17,11 @@ RUN function log { echo -e "\e[7;36m$(date +%F_%T)\e[0m\e[1;96m $*\e[0m" > /dev/
 && log "installing 'curl'" \
 && apk add --no-cache curl \
 \
+# https://github.com/ncopa/su-exec
+# https://pkgs.alpinelinux.org/packages?name=+su-exec&branch=v3.12&repo=main&arch=x86_64
+&& log "installing 'su-exec'" \
+&& apk add --no-cache su-exec \
+\
 # https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 && log "installing tzdata and set timezone as 'Asia/Shanghai'" \
 && apk add --no-cache tzdata \
