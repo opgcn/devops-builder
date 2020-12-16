@@ -3,6 +3,8 @@ FROM alpine:3.12
 
 WORKDIR /root
 
+HEALTHCHECK --timeout=1s --retries=1 CMD true || false
+
 ENV \
 LANG=C.UTF-8 \
 PS1='\[\e[1;7m\] $\?=$? $(. /etc/os-release && echo $ID-$VERSION_ID) \u@$(hostname -i)@\H:\w \[\e[0m\]\n\$ '
