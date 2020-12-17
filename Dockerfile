@@ -108,6 +108,6 @@ RUN function log { echo -e "\e[7;36m$(date +%F_%T)\e[0m\e[1;96m $*\e[0m" > /dev/
 && yq w -i metadata.yaml dockerhub.autobuild.DOCKERFILE_PATH "$DOCKERFILE_PATH" \
 && yq w -i metadata.yaml dockerhub.autobuild.DOCKER_TAG "$DOCKER_TAG" \
 && yq w -i metadata.yaml dockerhub.autobuild.IMAGE_NAME "$IMAGE_NAME" \
-&& rm -f Dockerfile \
-&& yq r -C metadata.yaml
+#&& rm -f Dockerfile \
+&& yq r -C metadata.yaml && env
 
