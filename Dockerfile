@@ -9,7 +9,7 @@ ENV \
 LANG=C.UTF-8 \
 PS1='\[\e[1;7m\] $\?=$? $(. /etc/os-release && echo $ID-$VERSION_ID) \u@$(hostname -i)@\H:\w \[\e[0m\]\n\$ '
 
-COPY Dockerfile /
+COPY Dockerfile .
 
 RUN function log { echo -e "\e[7;36m$(date +%F_%T)\e[0m\e[1;96m $*\e[0m" > /dev/stderr ; } \
 # https://pkgs.alpinelinux.org/
@@ -96,18 +96,18 @@ RUN function log { echo -e "\e[7;36m$(date +%F_%T)\e[0m\e[1;96m $*\e[0m" > /dev/
 && rm -rf ~/.ash_history ~/.cache/ ~/.config/ ~/.npm* ~/* /var/cache/apk/* /tmp/* \
 \
 # https://docs.docker.com/docker-hub/builds/advanced/#environment-variables-for-building-and-testing
-&& log "generating '/metadata.yaml'" \
-&& touch /metadata.yaml \
-&& yq w -i /metadata.yaml datetime "$(date +'%F %T %z')" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.github_url "https://github.com/opgcn/devops-builder" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.SOURCE_BRANCH "$SOURCE_BRANCH" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.SOURCE_COMMIT "$SOURCE_COMMIT" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.COMMIT_MSG "$COMMIT_MSG" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.DOCKER_REPO "$DOCKER_REPO" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.DOCKERFILE_PATH "$DOCKERFILE_PATH" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.DOCKER_TAG "$DOCKER_TAG" \
-&& yq w -i /metadata.yaml dockerhub.autobuild.IMAGE_NAME "$IMAGE_NAME" \
-&& yq w -i /metadata.yaml Dockerfile "$(cat /Dockerfile)" \
-&& rm -f /Dockerfile \
-&& yq r -C /metadata.yaml
+&& log "generating 'metadata.yaml'" \
+&& touch metadata.yaml \
+&& yq w -i metadata.yaml github_url "https://github.com/opgcn/devops-builder" \
+&& yq w -i metadata.yaml build_time "$(date +'%F %T %z')" \
+&& yq w -i metadata.yaml Dockerfile "$(cat Dockerfile)" \
+&& yq w -i metadata.yaml dockerhub.autobuild.SOURCE_BRANCH "$SOURCE_BRANCH" \
+&& yq w -i metadata.yaml dockerhub.autobuild.SOURCE_COMMIT "$SOURCE_COMMIT" \
+&& yq w -i metadata.yaml dockerhub.autobuild.COMMIT_MSG "$COMMIT_MSG" \
+&& yq w -i metadata.yaml dockerhub.autobuild.DOCKER_REPO "$DOCKER_REPO" \
+&& yq w -i metadata.yaml dockerhub.autobuild.DOCKERFILE_PATH "$DOCKERFILE_PATH" \
+&& yq w -i metadata.yaml dockerhub.autobuild.DOCKER_TAG "$DOCKER_TAG" \
+&& yq w -i metadata.yaml dockerhub.autobuild.IMAGE_NAME "$IMAGE_NAME" \
+&& rm -f Dockerfile \
+&& yq r -C metadata.yaml
 
