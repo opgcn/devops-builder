@@ -65,9 +65,12 @@ RUN function log { echo -e "\e[7;36m$(date +%F_%T)\e[0m\e[1;96m $*\e[0m" > /dev/
 && apk add --no-cache jq \
 \
 # https://github.com/mikefarah/yq/releases
-&& log "installing yq" \
+&& log "installing yq version 3.3.0 as default yq" \
 && wget "https://github.com/mikefarah/yq/releases/download/3.3.0/yq_linux_amd64" -O /bin/yq \
 && chmod a+x /bin/yq \
+&& log "installing yq version 4.x (latest) as yq4" \
+&& wget "https://github.com/mikefarah/yq/releases/download/v4.4.0/yq_linux_amd64" -O /bin/yq4 \
+&& chmod a+x /bin/yq4 \
 \
 # https://docs.amazonaws.cn/AmazonECR/latest/userguide/Registries.html#registry-auth-credential-helper
 && log "installing docker-credential-ecr-login" \
